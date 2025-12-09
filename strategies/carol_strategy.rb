@@ -63,11 +63,11 @@ class CarolStrategy < BaseStrategy
 
     if trustworthy.length >= 2
       # Choose from trustworthy players
-      choices = trustworthy.sample(2)
+      choices = T.cast(trustworthy.sample(2), T::Array[String])
       log_thought("Choosing trustworthy #{choices[0]} and #{choices[1]}")
     else
       # Must choose others if not enough trustworthy players
-      choices = others.sample(2)
+      choices = T.cast(others.sample(2), T::Array[String])
       log_thought("Forced to choose #{choices[0]} and #{choices[1]}")
     end
 

@@ -72,7 +72,7 @@ class AliceStrategy < BaseStrategy
 
     # Handle case with fewer than 2 other players
     if sorted.length < 2
-      sorted += others.sample(2 - sorted.length)
+      sorted += T.cast(others.sample(2 - sorted.length), T::Array[String])
     end
 
     [T.must(sorted[0]), T.must(sorted[1])]

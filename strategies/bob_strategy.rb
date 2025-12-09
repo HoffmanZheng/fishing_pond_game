@@ -66,7 +66,7 @@ class BobStrategy < BaseStrategy
 
     # Handle case with fewer than 2 other players
     if sorted.length < 2
-      sorted += others.sample(2 - sorted.length)
+      sorted += T.cast(others.sample(2 - sorted.length), T::Array[String])
     end
 
     log_thought("Selected #{sorted[0]} and #{sorted[1]}")

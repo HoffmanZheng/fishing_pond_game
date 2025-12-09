@@ -65,7 +65,6 @@ class BaseStrategy
     ).returns(Integer)
   end
   def choose_catch(round_number, turn_number, pond_fish, my_history, partner_history, partner_name, all_players_history)
-    raise NotImplementedError
   end
 
   sig do
@@ -76,6 +75,5 @@ class BaseStrategy
     ).returns([String, String])
   end
   def choose_partners(round_number, all_players, all_players_history)
-    raise NotImplementedError
   end
 end

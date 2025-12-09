@@ -39,7 +39,7 @@ class RandomStrategy < BaseStrategy
     log_thought("随机选两个搭档")
 
     others = all_players.reject { |p| p == name }
-    choices = others.sample(2)
+    choices = T.cast(others.sample(2), T::Array[String])
 
     log_thought("选了 #{choices[0]} 和 #{choices[1]}")
 

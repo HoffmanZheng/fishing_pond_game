@@ -9,9 +9,9 @@ class Pond
 
   sig { params(config: GameConfig).void }
   def initialize(config = GameConfig.new)
-    @config = config
-    @fish = config.initial_fish
-    @depleted = false
+    @config = T.let(config, GameConfig)
+    @fish = T.let(config.initial_fish, Integer)
+    @depleted = T.let(false, T::Boolean)
   end
 
   sig { returns(Integer) }
@@ -25,8 +25,8 @@ class Pond
   sig { params(player1_catch: Integer, player2_catch: Integer).returns(TurnResult) }
   def execute_turn(player1_catch, player2_catch)
     # Sanitize inputs
-    p1_catch = T.must([0, [player1_catch, @config.max_catch_per_turn].min].max)
-    p2_catch = T.must([0, [player2_catch, @config.max_catch_per_turn].min].max)
+    p1_catch = [0, [player1_catch, @config.max_catch_per_turn].min].max
+    p2_catch = [0, [player2_catch, @config.max_catch_per_turn].min].max
 
     pond_before = @fish
     total_catch = p1_catch + p2_catch

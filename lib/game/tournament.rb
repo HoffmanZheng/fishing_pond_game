@@ -56,7 +56,8 @@ class Tournament
     end
 
     # Find winner
-    winner = T.must(final_scores.max_by { |_name, score| score })[0]
+    winner_entry = T.cast(final_scores.max_by { |_name, score| score }, [String, Integer])
+    winner = winner_entry[0]
 
     TournamentResult.new(
       total_rounds: total_rounds,
