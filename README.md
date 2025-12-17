@@ -28,7 +28,7 @@ bundle exec rspec
 
 **Pond Dynamics:**
 - Initial pond: 100 fish
-- Growth rate: 20% per turn (of remaining fish)
+- Growth rate: 15%-25% per turn (randomly varies each turn to add uncertainty)
 - Fishing duration: 10 turns per pairing
 - Maximum catch per turn: 30 fish per player
 
@@ -67,8 +67,14 @@ class MyStrategy < BaseStrategy
     ).returns(Integer)
   end
   def choose_catch(round_number, turn_number, pond_fish, my_history, partner_history, partner_name, all_players_history)
+    # Optional: Log your decision-making process
+    log_thought("Pond has #{pond_fish} fish, considering catch amount")
+
     # Your logic here - return 0-30
-    10
+    catch = 10
+
+    log_thought("Decided to catch #{catch} fish")
+    catch
   end
 
   sig do
@@ -79,6 +85,9 @@ class MyStrategy < BaseStrategy
     ).returns([String, String])
   end
   def choose_partners(round_number, all_players, all_players_history)
+    # Optional: Log your partner selection reasoning
+    log_thought("Selecting partners for round #{round_number}")
+
     # Your logic here - return [first_choice, second_choice]
     others = all_players.reject { |p| p == name }
     [T.must(others[0]), T.must(others[1])]
@@ -91,6 +100,35 @@ end
 ```bash
 bin/validate strategies/my_strategy.rb
 ```
+
+### Using log_thought for Strategy Development
+
+The `log_thought(message)` method allows you to record your strategy's decision-making process. These thoughts are captured in HTML reports, making it easier to:
+- Debug your strategy logic
+- Understand why your strategy made certain decisions
+- Share your reasoning with teammates
+
+Example usage:
+```ruby
+def choose_catch(...)
+  log_thought("Analyzing pond health: #{pond_fish} fish remaining")
+
+  if pond_fish < 30
+    log_thought("Pond is low, being conservative")
+    return 3
+  end
+
+  log_thought("Pond is healthy, catching more aggressively")
+  20
+end
+```
+
+Thoughts are automatically organized by:
+- Round number
+- Phase (choose_catch or choose_partners)
+- Turn number (for choose_catch only)
+
+View them in the generated HTML reports under each player's actions.
 
 ## Command Line Options
 
